@@ -1,8 +1,7 @@
 # Download Java
-ARG JAVA_VERSION="18-jdk"
-FROM openjdk:${JAVA_VERSION}
+FROM eclipse-temurin:21-jdk
 
-LABEL versioin="1.0.0"
+LABEL version="1.0.0"
 
 ENV PROJECT_NAME="todo-api"
 

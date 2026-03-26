@@ -1,0 +1,6 @@
+dependencies:
+- name: mongodb
+  repository: oci://registry-1.docker.io/cloudpirates
+  version: 0.14.2
+digest: sha256:e943f715874e8e6a3208dd1b7b12da02fa5096726d36dfa9c2c0b31887b437b7
+generated: "2026-03-26T13:57:44.919994338+07:00"

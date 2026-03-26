@@ -1,0 +1,90 @@
+# Default values for todo-api
+replicaCount: 1
+
+image:
+  repository: mrnanda/to-do-api
+  pullPolicy: IfNotPresent
+  tag: "2.0"
+
+# MongoDB configuration using cloudpirates chart
+mongodb:
+  enabled: true
+  replicaCount: 1
+  auth:
+    rootUsername: admin
+    rootPassword: ""  # Auto-generate strong password
+    appUsername: todo-user  # App user to connect with (least privilege)
+    appDatabase: todo
+    appAuthDatabase: todo
+  customUsers:
+    - name: todo-user
+      database: todo
+      roles:
+        - readWrite
+  persistence:
+    enabled: true
+    size: 2Gi
+    storageClass: standard
+  service:
+    type: ClusterIP
+    port: 27017
+
+# Application MongoDB connection settings (defaults to values from mongodb.auth)
+app:
+  mongodb:
+    username: ""  # Defaults to mongodb.auth.appUsername
+    database: ""  # Defaults to mongodb.auth.appDatabase
+    authDatabase: ""  # Defaults to mongodb.auth.appAuthDatabase
+
+# Application ConfigMap
+config:
+  serverPort: 8080
+  springProfile: default
+
+# Resource limits
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+# Service configuration
+service:
+  type: LoadBalancer
+  port: 8080
+  targetPort: 8080
+  nodePort: ""
+
+# Ingress (optional)
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: todo-api.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+# Liveness and Readiness probes
+probes:
+  liveness:
+    path: /api/todos
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+  readiness:
+    path: /api/todos
+    initialDelaySeconds: 30
+    periodSeconds: 5
+    timeoutSeconds: 3
+    failureThreshold: 3
+
+# Pod labels
+labels:
+  app: todo-api
+  environment: production

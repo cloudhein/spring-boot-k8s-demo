@@ -2,7 +2,7 @@ package com.pavan.todo.controllers;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import com.pavan.todo.models.Todo;
 import com.pavan.todo.services.TodoService;

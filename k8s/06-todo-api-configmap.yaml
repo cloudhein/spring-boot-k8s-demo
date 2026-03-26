@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: todo-api-config
+  namespace: todo-app
+data:
+  application.properties: |
+    spring.data.mongodb.host=mongodb
+    spring.data.mongodb.port=27017
+    spring.data.mongodb.username=${MONGODB_USERNAME}
+    spring.data.mongodb.password=${MONGODB_PASSWORD}
+    spring.data.mongodb.database=${MONGODB_DATABASE}
+    spring.data.mongodb.authentication-database=${MONGODB_AUTHENTICATION_DATABASE}
+    server.port=8080

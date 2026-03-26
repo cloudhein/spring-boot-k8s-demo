@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "todo-api.fullname" . }}-config
+  labels:
+    {{- include "todo-api.labels" . | nindent 4 }}
+data:
+  application.properties: |
+    spring.data.mongodb.host={{ template "mongodb.fullname" . }}
+    spring.data.mongodb.port=27017
+    spring.data.mongodb.username=${MONGODB_USERNAME}
+    spring.data.mongodb.password=${MONGODB_PASSWORD}
+    spring.data.mongodb.database=${MONGODB_DATABASE}
+    spring.data.mongodb.authentication-database=${MONGODB_AUTHENTICATION_DATABASE}
+    server.port={{ .Values.config.serverPort }}
+    spring.profiles.active={{ .Values.config.springProfile }}
